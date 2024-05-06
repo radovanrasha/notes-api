@@ -49,7 +49,7 @@ app.get("/", (req, res) => {
 });
 
 // Connect to DB and start server
-const PORT = process.env.PORT || 3005;
+const PORT = process.env.PORT || 3002;
 mongoose
   .connect("mongodb://127.0.0.1:27017/notes-app")
   .then(() => {
