@@ -45,18 +45,18 @@ exports.loginUser = async (req, res) => {
     });
 
     if (item && passwordIsCorrect) {
-      res.status(200).json({
+      return res.status(200).json({
         item: { ...item, password: undefined },
         token,
         status: 200,
       });
     } else {
-      res.status(400).json({ message: "Wrong password" });
+      return res.status(400).json({ message: "Wrong password" });
       // throw new Error("Invalid email or password.");
     }
   } catch (error) {
     console.log(error);
-    res.status(400).json(error);
+    return res.status(400).json(error);
   }
 };
 
