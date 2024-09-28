@@ -14,7 +14,7 @@ exports.loginUser = async (req, res) => {
 
     //Validation
     if (!data.password || !data.email) {
-      res.status(400).send("Please add email and password");
+      return res.status(400).send("Please add email and password");
     }
 
     //Does user exist?
@@ -23,7 +23,7 @@ exports.loginUser = async (req, res) => {
     });
 
     if (!item) {
-      res
+      return res
         .status(400)
         .send("User with this email does not exist. Please signup");
     }
@@ -74,6 +74,8 @@ exports.registerUser = async (req, res) => {
   try {
     let data = req.body;
 
+    console.log("data", data);
+
     ///HASH password
     const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(data.password, salt);
@@ -88,6 +90,8 @@ exports.registerUser = async (req, res) => {
     ///save user in db
     await item.save();
 
+    console.log("item", item);
+
     ///generate token
     const token = generateToken(item._id);
 
@@ -100,10 +104,10 @@ exports.registerUser = async (req, res) => {
       secure: true,
     });
 
-    res.status(200).json({ item, token, res: res.cookie, status: 200 });
+    return res.status(200).json({ item, token, res: res.cookie, status: 200 });
   } catch (error) {
-    res.status(400).json(error);
     console.log("Error during registration", error);
+    return res.status(400).json(error);
   }
 };
 
