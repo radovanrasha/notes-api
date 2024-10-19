@@ -44,9 +44,11 @@ exports.loginUser = async (req, res) => {
       secure: true,
     });
 
-    if (item && passwordIsCorrect) {
+    const parsedItem = JSON.parse(JSON.stringify(item));
+
+    if (item && passwordIsCorrect && parsedItem) {
       return res.status(200).json({
-        item: { ...item, password: undefined },
+        item: { ...parsedItem, password: undefined },
         token,
         status: 200,
       });
@@ -57,16 +59,6 @@ exports.loginUser = async (req, res) => {
   } catch (error) {
     console.log(error);
     return res.status(400).json(error);
-  }
-};
-
-exports.logoutUser = async (req, res) => {
-  try {
-    res.clearCookie("session");
-    res.send("Logged out");
-  } catch (error) {
-    console.log(error);
-    res.status(400).json(error);
   }
 };
 

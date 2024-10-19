@@ -5,6 +5,8 @@ const cookieParser = require("cookie-parser");
 const dotenv = require("dotenv");
 const chalk = require("chalk");
 const cors = require("cors");
+const swaggerUi = require("swagger-ui-express");
+const swaggerDocument = require("./lib/swagger.json");
 
 const app = express();
 //Middlewares
@@ -12,13 +14,25 @@ app.use(express.json());
 app.use(cookieParser());
 app.use(express.urlencoded({ extended: false }));
 app.use(bodyParser.json());
+app.use(
+  "/swagger-docs",
+  (req, res, next) => {
+    swaggerDocument.host = req.get("host");
+    req.swaggerDoc = swaggerDocument;
+    next();
+  },
+  swaggerUi.serve,
+  swaggerUi.setup(swaggerDocument)
+);
 dotenv.config();
 
 mongoose.set("strictQuery", false);
 
 const allowedOrigins = [
   "https://notes.radovanrasha.com",
+  "https://notes-api.radovanrasha.com",
   "http://localhost:3000",
+  "http://localhost:3002",
 ];
 
 const corsOptions = {

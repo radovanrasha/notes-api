@@ -1,0 +1,148 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "NotesApp",
+    "description": "Notes app backend api swagger\n\nTo use the routes that are using JWT, first use the login route with the correct data and then copy the JWT value from the response and enter that in the authorize field to use it for the rest of the routes.",
+    "version": "1.0.0"
+  },
+  "basePath": "/",
+  "tags": [
+    {
+      "name": "Authentication"
+    }
+  ],
+  "schemes": ["http", "https"],
+  "components": {
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      }
+    }
+  },
+  "paths": {
+    "/login": {
+      "post": {
+        "tags": ["Authentication"],
+        "summary": "Login to the app",
+        "description": "Authenticate a user to login to the app",
+        "operationId": "loginToApp",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "email": {
+                    "type": "string",
+                    "description": "User email."
+                  },
+                  "password": {
+                    "type": "string",
+                    "description": "User password."
+                  }
+                },
+                "required": ["email", "password"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Authentication successful",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "item": {
+                      "type": "object",
+                      "properties": {
+                        "_id": {
+                          "type": "string",
+                          "example": "1"
+                        },
+                        "username": {
+                          "type": "string",
+                          "example": "username"
+                        },
+                        "email": {
+                          "type": "string",
+                          "example": "example@test.com"
+                        },
+                        "followers": {
+                          "type": "array",
+                          "items": {
+                            "type": "string"
+                          },
+                          "example": []
+                        },
+                        "following": {
+                          "type": "array",
+                          "items": {
+                            "type": "string"
+                          },
+                          "example": []
+                        },
+                        "phoneNumber": {
+                          "type": "string",
+                          "example": ""
+                        },
+                        "role": {
+                          "type": "string",
+                          "example": "user"
+                        },
+                        "createdAt": {
+                          "type": "string",
+                          "format": "date-time",
+                          "example": ""
+                        },
+                        "updatedAt": {
+                          "type": "string",
+                          "format": "date-time",
+                          "example": ""
+                        },
+                        "__v": {
+                          "type": "integer",
+                          "example": 0
+                        }
+                      }
+                    },
+                    "token": {
+                      "type": "string",
+                      "example": ""
+                    },
+                    "status": {
+                      "type": "integer",
+                      "example": 200
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Bad request"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "definitions": {},
+  "routes": {}
+}
